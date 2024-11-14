@@ -1,5 +1,3 @@
-import dsa.QueueLL.Node;
-
 public class CreateBinaryTree_Op {
 
 	static class Node
@@ -69,6 +67,86 @@ public class CreateBinaryTree_Op {
 			postorder(root.right);
 			System.out.println(root.data+" ");
 		}
+
+		public static void levelOrder(Node root)
+		{
+			if(root == null)
+			{
+				return;
+			}
+			Queue<Node> q = new LinkedList<Node>();
+			
+			q.add(root);
+			q.add(null);
+			
+			while(!q.isEmpty())
+			{
+				Node currNode = q.remove();
+				if(currNode == null)
+				{
+					System.out.println();
+					if(q.isEmpty())	
+					{
+						break;
+					}
+					else
+					{
+						q.add(null);
+					}
+				}
+				else
+				{
+					System.out.print(currNode.data);
+					
+					if(currNode.left != null)
+					{
+						q.add(currNode.left);
+					}
+					if(currNode.right != null)
+					{
+						q.add(currNode.right);
+					}
+				}
+			}
+		}
+		
+		public static int countOfNodes(Node root)
+		{
+			if(root == null)
+			{
+				return 0;
+			}
+			int leftNode = countOfNodes(root.left);
+			int rightNode = countOfNodes(root.right);
+			
+			return leftNode + rightNode +1;
+		}
+		
+		public static int sumOfNodes(Node root)
+		{
+			if(root == null)
+			{
+				return 0;
+			}
+			int leftSum = sumOfNodes(root.left);
+			int rightSum = sumOfNodes(root.right);
+			
+			return leftSum + rightSum + root.data;
+		}
+		
+		public static int heightOfTree(Node root)
+		{
+			if(root == null)
+			{
+				return 0;
+			}
+			
+			int leftHeight = heightOfTree(root.left);
+			int rightHeight = heightOfTree(root.right);
+			int myHeight = Math.max(leftHeight, rightHeight) + 1;
+			
+			return myHeight;
+		}
 	}
 	
 	public static void main(String[] args) 
@@ -83,13 +161,23 @@ public class CreateBinaryTree_Op {
 		System.out.print("Preorder = ");
 		tree.preorder(root);
 		
-		System.out.println(" ");
+		System.out.println();
 		System.out.print("Inorder = ");
 		tree.inorder(root);
 		
-		System.out.println(" ");
+		System.out.println();
 		System.out.print("Postorder = ");
-		tree.inorder(root);
+		tree.postorder(root);
+
+		System.out.println();
+		System.out.println("Level order:");
+		tree.levelOrder(root);
+		
+		System.out.println("Number of nodes = "+tree.countOfNodes(root));
+
+		System.out.println("Sum of all nodes = "+tree.sumOfNodes(root));
+
+		System.out.println("Height of Tree = "+tree.heightOfTree(root));
 	}
 
 }
